@@ -1,0 +1,1141 @@
+
+/* =========================================================
+   COMPONENT SYSTEM — VISUAL APPEARANCE
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   01. STICKY NAVIGATION — ARCHIVAL FOLDER TABS
+   --------------------------------------------------------- */
+
+/*
+   FLAT:
+   Original right-trapezoid navigation below the Hero.
+
+   RAISED:
+   Inactive tabs remain stationary.
+   Active tab extends downward over the folder line.
+   Individual tab shadows create the folder effect.
+*/
+
+nav[aria-label="Main navigation"] {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+
+  isolation: isolate;
+
+  width: 100%;
+  height: var(--nav-height);
+
+  margin: 0;
+  padding: 0;
+
+  background-color: var(--color-nav-bg);
+  border: 0;
+}
+
+/* ---------------------------------------------------------
+   01A. FOLDER BACKGROUND
+   --------------------------------------------------------- */
+
+.navbar-folder-edge {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  display: block;
+  pointer-events: none;
+
+  background: transparent;
+}
+
+nav[data-nav-style="raised"] .navbar-folder-edge {
+  background: linear-gradient(
+    to bottom,
+    var(--color-nav-bg) 0%,
+    var(--color-nav-bg) calc(100% - 7px),
+    var(--color-nav-inactive) calc(100% - 7px),
+    var(--color-nav-inactive) 100%
+  );
+
+  box-shadow: none;
+}
+
+/* ---------------------------------------------------------
+   01B. CONTINUOUS HORIZONTAL FOLDER LINE
+   --------------------------------------------------------- */
+
+.navbar-folder-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3px;
+
+  z-index: 1;
+
+  height: 1px;
+
+  background-color: var(--color-border);
+
+  pointer-events: none;
+}
+
+nav[data-nav-style="raised"] .navbar-folder-line {
+  display: block;
+  background-color: var(--color-border);
+}
+
+nav[data-nav-style="flat"] .navbar-folder-line {
+  display: none;
+}
+
+/* ---------------------------------------------------------
+   01C. HORIZONTAL NAVIGATION
+   --------------------------------------------------------- */
+
+.navbar-scroll {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  flex: 1;
+  align-items: stretch;
+
+  width: 100%;
+  min-width: 0;
+  height: var(--nav-height);
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.navbar-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------------------------------------------------------
+   01D. TAB STRUCTURE
+   --------------------------------------------------------- */
+
+.navbar-scroll .navbar-tab {
+  position: relative;
+
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  height: var(--nav-height);
+
+  margin: 0;
+  border: 0;
+
+  isolation: isolate;
+
+  background: transparent !important;
+  color: var(--color-text-secondary);
+
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* Shared right-trapezoid geometry */
+
+.navbar-tab-surface,
+.navbar-tab-shadow {
+  position: absolute;
+  inset: 0;
+
+  display: block;
+  pointer-events: none;
+
+  clip-path: polygon(
+    0 0,
+    calc(100% - 16px) 0,
+    100% 100%,
+    0 100%
+  );
+}
+
+/* Main tab surface */
+
+.navbar-tab-surface {
+  z-index: -1;
+
+  background-color: var(--tab-background);
+
+  transition:
+    background-color var(--transition-fast),
+    top var(--transition-normal),
+    bottom var(--transition-normal);
+}
+
+/* Shadow behind each trapezoid */
+
+.navbar-tab-shadow {
+  z-index: -2;
+
+  background-color: rgba(35, 28, 23, 0.18);
+
+  transform: translate(2px, 1px);
+}
+
+/* Text above decorative layers */
+
+.navbar-tab-label {
+  position: relative;
+  z-index: 2;
+
+  transition: transform var(--transition-normal);
+}
+
+/* ---------------------------------------------------------
+   01E. ACTIVE, INACTIVE & HOVER COLORS
+   --------------------------------------------------------- */
+
+nav[aria-label="Main navigation"]
+  .navbar-tab[aria-current="location"] {
+  --tab-background: var(--color-nav-active);
+
+  color: var(--color-nav-active-text) !important;
+}
+
+nav[aria-label="Main navigation"]
+  .navbar-tab:not([aria-current="location"]) {
+  --tab-background: var(--color-nav-inactive);
+
+  color: var(--color-text-secondary) !important;
+}
+
+nav[aria-label="Main navigation"]
+  .navbar-tab:not([aria-current="location"]):hover {
+  --tab-background: var(--color-hover);
+}
+
+/* ---------------------------------------------------------
+   01F. FLAT MODE — HOME
+   --------------------------------------------------------- */
+
+nav[data-nav-style="flat"] {
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: none;
+}
+
+nav[data-nav-style="flat"] .navbar-tab-surface {
+  inset: 0;
+
+  background-image: none;
+}
+
+nav[data-nav-style="flat"] .navbar-tab-shadow,
+nav[data-nav-style="flat"] .navbar-tab-highlight {
+  display: none;
+}
+
+nav[data-nav-style="flat"] .navbar-tab-label {
+  transform: none;
+}
+
+/* ---------------------------------------------------------
+   01G. RAISED MODE — STATIONARY INACTIVE TABS
+   --------------------------------------------------------- */
+
+nav[data-nav-style="raised"] {
+  border-bottom: 0;
+  box-shadow: none;
+}
+
+nav[data-nav-style="raised"]
+  .navbar-tab:not([aria-current="location"])
+  .navbar-tab-surface {
+  top: 0;
+  bottom: 6px;
+
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.16),
+    transparent 28%,
+    transparent 82%,
+    rgba(0, 0, 0, 0.05)
+  );
+}
+
+nav[data-nav-style="raised"]
+  .navbar-tab:not([aria-current="location"])
+  .navbar-tab-shadow {
+  display: block;
+
+  top: 0;
+  bottom: 6px;
+
+  transform: translate(2px, 2px);
+}
+
+/* ---------------------------------------------------------
+   01H. RAISED MODE — LOWERED ACTIVE TAB
+   --------------------------------------------------------- */
+
+/*
+   The selected tab extends 6px lower than
+   the inactive tabs and overlaps the folder line.
+*/
+
+nav[data-nav-style="raised"]
+  .navbar-tab[aria-current="location"] {
+  z-index: 5;
+}
+
+nav[data-nav-style="raised"]
+  .navbar-tab[aria-current="location"]
+  .navbar-tab-surface {
+  top: 0;
+  bottom: 0;
+
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.13),
+    transparent 30%,
+    transparent 86%,
+    rgba(0, 0, 0, 0.04)
+  );
+}
+
+nav[data-nav-style="raised"]
+  .navbar-tab[aria-current="location"]
+  .navbar-tab-shadow {
+  display: block;
+
+  top: 0;
+  bottom: 0;
+
+  background-color: rgba(35, 28, 23, 0.22);
+
+  transform: translate(2px, 1px);
+}
+
+nav[data-nav-style="raised"]
+  .navbar-tab[aria-current="location"]
+  .navbar-tab-label {
+  transform: translateY(2px);
+}
+
+/* ---------------------------------------------------------
+   01I. SUBTLE TOP HIGHLIGHTS
+   --------------------------------------------------------- */
+
+.navbar-tab-highlight {
+  position: absolute;
+
+  top: 2px;
+  left: 5px;
+  right: 21px;
+
+  height: 1px;
+
+  background-color: rgba(255, 255, 255, 0.36);
+
+  pointer-events: none;
+}
+
+nav[data-nav-style="raised"] .navbar-tab-highlight {
+  display: block;
+}
+
+nav[data-nav-style="raised"]
+  .navbar-tab[aria-current="location"]
+  .navbar-tab-highlight {
+  background-color: rgba(255, 255, 255, 0.28);
+}
+
+/* ---------------------------------------------------------
+   01J. ACCESSIBILITY
+   --------------------------------------------------------- */
+
+.navbar-tab:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -4px;
+}
+
+
+/* ---------------------------------------------------------
+   02. FLOATING THEME TOGGLE
+   --------------------------------------------------------- */
+
+.theme-toggle {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 52px;
+  height: 52px;
+  padding: 0;
+
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+
+  background-color: var(--color-surface);
+  color: var(--color-accent);
+
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+
+  cursor: pointer;
+
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal),
+    border-color var(--transition-normal),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-hover);
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.16);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+
+/* ---------------------------------------------------------
+   03. HERO APPEARANCE
+   --------------------------------------------------------- */
+
+/*
+   Light mode: Polished Chrome Silver
+   Dark mode: Obsidian Chrome
+
+   Hero typography:
+   Light: Neutral charcoal
+   Dark: Soft white
+
+   Blue is reserved for subtle accent details.
+*/
+
+.hero {
+  background: var(--color-hero-bg);
+}
+
+/* Pinned notebook paper — decorative layer behind Hero introduction.
+   Image selection is controlled by the active theme in colors.css. */
+
+.hero-intro {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-pinned-paper {
+  position: absolute;
+
+  top: 41%;
+  left: 49%;
+
+  z-index: -1;
+
+  width: 118%;
+  height: 125%;
+
+  transform: translate(-50%, -50%);
+
+  background-image: var(--color-hero-paper-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .hero-pinned-paper {
+    width: 120%;
+    height: 118%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-pinned-paper {
+    width: 115%;
+    height: 112%;
+  }
+}
+
+/* Portfolio label */
+
+.hero-label {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+
+  width: fit-content;
+
+  color: var(--color-hero-text);
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.hero-label::after {
+  content: "";
+
+  width: 40px;
+  height: 2px;
+
+  background-color: var(--color-accent);
+}
+
+/* Name label */
+
+.hero-name-label {
+  margin: 0 0 12px;
+
+  color: var(--color-hero-text);
+
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* Hero name appearance */
+
+.hero-name {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0;
+
+  color: var(--color-hero-text);
+}
+
+/*
+   Preserve the manually controlled
+   two-line Hero name.
+
+   Only direct children become separate lines.
+   Nested spans, including the period,
+   remain inline.
+*/
+
+.hero-name > span {
+  display: block;
+  white-space: nowrap;
+}
+
+/* Name punctuation — Blue accent */
+
+.hero-name-period {
+  display: inline !important;
+  color: var(--color-accent);
+}
+
+/* Tagline */
+
+.hero-tagline {
+  width: 100%;
+  max-width: 450px;
+
+  color: var(--color-hero-text-secondary);
+  text-align: center;
+}
+
+/* Contact link */
+
+.hero-contact {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding-bottom: 8px;
+
+  border-bottom: 2px solid var(--color-accent);
+
+  color: var(--color-hero-text);
+
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  transition:
+    opacity var(--transition-fast);
+}
+
+.hero-contact:hover {
+  opacity: 0.7;
+}
+
+
+/* ---------------------------------------------------------
+   DOWNLOAD RÉSUMÉ BUTTON
+   --------------------------------------------------------- */
+
+/*
+   Light mode: Muted metallic teal
+   Dark mode: Deep subdued teal
+*/
+
+.hero-resume {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+
+  padding: 12px 24px;
+
+  border-radius: 7px;
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.16),
+    0 8px 20px rgba(0, 0, 0, 0.12);
+
+  background-color: var(--color-button-primary-bg);
+  color: var(--color-button-primary-text);
+
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.hero-resume:hover {
+  background-color: var(--color-button-primary-hover);
+  transform: translateY(-2px);
+}
+
+/* Portrait decoration */
+
+.hero-portrait::before {
+  content: "";
+
+  position: absolute;
+  top: -16px;
+  right: -16px;
+
+  width: 75%;
+  height: 75%;
+
+  border: 1px solid var(--color-border);
+
+  pointer-events: none;
+}
+
+.hero-portrait-frame {
+  position: relative;
+  overflow: hidden;
+
+  background-color: var(--color-surface-raised);
+}
+
+.hero-portrait-image {
+  display: block;
+
+  width: 100%;
+  aspect-ratio: 4 / 5;
+
+  object-fit: cover;
+}
+
+
+/* ---------------------------------------------------------
+   04. ABOUT ME APPEARANCE
+   --------------------------------------------------------- */
+
+/*
+   Section A:
+   Light: White
+   Dark: Charcoal slate
+*/
+
+.about-section {
+  background-color: var(--color-section-primary);
+}
+
+.about-heading {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.about-biography {
+  width: 100%;
+  max-width: 850px;
+
+  text-align: center;
+  text-wrap: pretty;
+}
+
+
+/* ---------------------------------------------------------
+   05. ALTERNATING SECTION BACKGROUNDS
+   --------------------------------------------------------- */
+
+/*
+   Section A — Primary:
+   About Me, Projects
+
+   Section B — Secondary:
+   Certifications, Contact Me
+
+   Hero maintains its independent metallic background.
+*/
+
+/* Section A */
+
+#about,
+#projects {
+  background-color: var(--color-section-primary);
+}
+
+/* Section B */
+
+#certifications,
+#contact {
+  background-color: var(--color-section-secondary);
+}
+
+
+/* ---------------------------------------------------------
+   06. PROJECTS APPEARANCE
+   --------------------------------------------------------- */
+
+/*
+   Compact editorial-style project previews.
+
+   The section layout and responsive grid
+   are handled in layout.css.
+
+   Only the first project image and title
+   are displayed in the gallery.
+*/
+
+/* Section heading */
+
+.projects-heading {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+
+/* ---------------------------------------------------------
+   07. PROJECT CARDS
+   --------------------------------------------------------- */
+
+.project-item {
+  min-width: 0;
+  margin: 0;
+}
+
+.project-item-inner {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  min-width: 0;
+
+  gap: 12px;
+}
+
+/* Image container */
+
+.project-image-wrapper {
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 4 / 3;
+
+  overflow: hidden;
+
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
+
+  background-color: var(--color-surface-raised);
+
+  transition:
+    border-color var(--transition-normal),
+    box-shadow var(--transition-normal);
+}
+
+/* Project image */
+
+.project-image {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition:
+    transform 350ms ease,
+    opacity var(--transition-normal);
+}
+
+/* Image placeholder */
+
+.project-image-placeholder {
+  width: 100%;
+  height: 100%;
+
+  background-color: var(--color-surface-raised);
+}
+
+/* Hover appearance */
+
+.project-item:hover .project-image-wrapper {
+  border-color: var(--color-accent);
+
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.project-item:hover .project-image {
+  transform: scale(1.035);
+}
+
+/* Project title */
+
+.project-item-title {
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+
+  text-align: center;
+  text-wrap: balance;
+
+  transition:
+    color var(--transition-fast);
+}
+
+.project-item:hover .project-item-title {
+  color: var(--color-accent);
+}
+
+/* Interactive project card */
+
+.project-item-inner {
+  padding: 0;
+  border: 0;
+  border-radius: 2px;
+
+  background: transparent;
+  color: inherit;
+
+  font: inherit;
+  text-align: inherit;
+
+  cursor: pointer;
+}
+
+.project-item-inner:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 6px;
+}
+
+
+/* ---------------------------------------------------------
+   08. SEE MORE / SEE LESS BUTTON
+   --------------------------------------------------------- */
+
+/*
+   Minimal text-only control.
+
+   No solid background, heavy border,
+   or prominent button styling.
+*/
+
+.projects-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 8px 4px;
+
+  border: 0;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+
+  background: transparent;
+  color: var(--color-text-secondary);
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.projects-toggle:hover {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+.projects-toggle:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 5px;
+}
+
+.projects-toggle svg {
+  flex-shrink: 0;
+
+  transition:
+    transform var(--transition-fast);
+}
+
+.projects-toggle:hover svg {
+  transform: translateY(2px);
+}
+
+.projects-section.is-expanded
+  .projects-toggle:hover svg {
+  transform: translateY(-2px);
+}
+
+
+/* ---------------------------------------------------------
+   09. CONTACT APPEARANCE
+   --------------------------------------------------------- */
+
+/*
+   Two-column Contact:
+   restrained typography, no email underline,
+   proportional social links.
+*/
+
+.contact-header {
+  text-align: left;
+}
+
+.contact-heading {
+  margin: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.contact-description {
+  max-width: 570px;
+  margin: 20px 0 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: clamp(14px, 1.3vw, 16px);
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+
+/* Centered label above the left-aligned email */
+
+.contact-eyebrow {
+  margin: 0 0 24px;
+
+  color: var(--color-accent);
+
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: 0.18em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Primary email */
+
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+
+  color: var(--color-text-primary);
+
+  font-size: clamp(16px, 1.8vw, 21px);
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+
+  transition: color var(--transition-fast);
+}
+
+.contact-email svg {
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+.contact-email:hover {
+  color: var(--color-accent);
+}
+
+/* Résumé download spacing */
+
+.contact-resume {
+  margin-top: 24px;
+}
+
+/* Vertical social links */
+
+.contact-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+
+  width: fit-content;
+  padding: 4px 0;
+
+  color: var(--color-text-secondary);
+
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.6;
+  text-decoration: none;
+
+  transition: color var(--transition-fast);
+}
+
+.contact-social-link svg {
+  flex-shrink: 0;
+  color: var(--color-accent);
+}
+
+.contact-social-link:hover {
+  color: var(--color-accent);
+}
+
+.contact-email:focus-visible,
+.contact-social-link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 5px;
+}
+
+
+/* ---------------------------------------------------------
+   10. RESPONSIVE COMPONENT APPEARANCE
+   --------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  .hero-name-label {
+    margin-bottom: 10px;
+    font-size: 11px;
+  }
+
+  .hero-portrait::before {
+    top: -8px;
+    right: -8px;
+  }
+
+  .hero-tagline {
+    max-width: 400px;
+  }
+
+  .hero-contact,
+  .hero-resume {
+    font-size: 12px;
+  }
+
+  .hero-resume {
+    padding: 11px 16px;
+  }
+
+  /* Contact typography */
+
+  .contact-eyebrow {
+    margin-bottom: 18px;
+    font-size: 11px;
+  }
+
+  .contact-heading {
+    font-size: clamp(25px, 5.5vw, 34px);
+  }
+
+  .contact-description {
+    margin-top: 16px;
+    font-size: 15px;
+  }
+
+  .contact-email {
+    gap: 10px;
+    font-size: clamp(15px, 4vw, 19px);
+  }
+
+  .contact-social-link {
+    font-size: 15px;
+  }
+
+  /* Project cards */
+
+  .project-item-inner {
+    gap: 10px;
+  }
+
+  .project-item-title {
+    font-size: 14px;
+  }
+
+  .projects-toggle {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-toggle {
+    right: 16px;
+    bottom: 16px;
+
+    width: 46px;
+    height: 46px;
+  }
+}
+
+
+/* ---------------------------------------------------------
+   11. REDUCED MOTION
+   --------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-tab-surface,
+  .navbar-tab-label,
+  .project-image,
+  .project-image-wrapper,
+  .project-item-title,
+  .projects-toggle,
+  .projects-toggle svg,
+  .contact-email,
+  .contact-social-link {
+    transition: none;
+  }
+}

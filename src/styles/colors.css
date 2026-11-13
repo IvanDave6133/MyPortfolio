@@ -1,0 +1,153 @@
+
+/* =========================================================
+   COLOR SYSTEM — LIGHT & DARK THEMES
+   ========================================================= */
+
+
+/* ---------------------------------------------------------
+   01. LIGHT THEME — WARM EDITORIAL
+   --------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* Backgrounds */
+  --color-bg: #f8f5ef;
+  --color-surface: #e5ded2;
+  --color-surface-raised: #faf8f4;
+
+  /* Hero — Natural Cork Bulletin Board */
+  --color-hero-bg:
+    linear-gradient(
+      rgba(242, 229, 206, 0.12),
+      rgba(242, 229, 206, 0.12)
+    ),
+    url("/images/textures/corkybkg.jpg");
+
+  /* Hero — Pinned Notebook Paper */
+  --color-hero-paper-image:
+    url("/images/textures/paperpinned.png");
+
+  /* Alternating Section Backgrounds */
+  /* A — Warm Paper White */
+  --color-section-primary: #f8f5ef;
+
+  /* B — Warm Stone */
+  --color-section-secondary: #e5ded2;
+
+  /* Typography — Warm Charcoal */
+  --color-text: #252421;
+  --color-text-secondary: #555650;
+  --color-text-muted: #858078;
+
+  /* Hero Typography — Neutral Ink */
+  --color-hero-text: #252421;
+  --color-hero-text-secondary: #555650;
+
+  /* Blue Accent — Arrows and Underlines Only */
+  --color-accent: #2563eb;
+  --color-accent-soft: #79a8ff;
+  --color-accent-contrast: #ffffff;
+
+  /* Borders */
+  --color-border: #c9c0b5;
+
+  /* Navigation */
+  /* Same as Section B */
+  --color-nav-bg: #e5ded2;
+
+  /* Close to Section A */
+  --color-nav-inactive: #f8f5ef;
+
+  /* Active Navigation — Neon Wine */
+  --color-nav-active: #a71950;
+  --color-nav-active-text: #ffffff;
+
+  /* Download Buttons — Muted Metallic Teal */
+  --color-button-primary-bg: #416f79;
+  --color-button-primary-text: #ffffff;
+  --color-button-primary-hover: #30545c;
+
+  /* Interactive States */
+  --color-hover: #e7c8d1;
+  --color-focus: #2563eb;
+
+  /* Cursor Trail — Same Blue as Theme Toggle Line Art */
+  --color-cursor-trail: var(--color-accent);
+}
+
+
+/* ---------------------------------------------------------
+   02. DARK THEME — OBSIDIAN SLATE
+   --------------------------------------------------------- */
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Backgrounds */
+  --color-bg: #090c12;
+  --color-surface: #101a2a;
+  --color-surface-raised: #202c3f;
+
+  /* Hero — Obsidian Chrome */
+  --color-hero-bg: linear-gradient(
+    135deg,
+    #030405 0%,
+    #20242a 20%,
+    #080a0d 36%,
+    #414851 50%,
+    #0b0d11 68%,
+    #262b33 83%,
+    #030405 100%
+  );
+
+  /* Hero — Pinned Paper Disabled */
+  --color-hero-paper-image: none;
+
+  /* Alternating Section Backgrounds */
+  /* A — Lighter Obsidian */
+  --color-section-primary: #202c3f;
+
+  /* B — Darker Obsidian */
+  --color-section-secondary: #101a2a;
+
+  /* Typography — Soft White */
+  --color-text: #f1f2f4;
+  --color-text-secondary: #cdd3dc;
+  --color-text-muted: #8997a8;
+
+  /* Hero Typography — Neutral, No Blue */
+  --color-hero-text: #f1f2f4;
+  --color-hero-text-secondary: #cdd3dc;
+
+  /* Blue Accent — Slightly Brighter */
+  --color-accent: #4b91ff;
+  --color-accent-soft: #79a8ff;
+  --color-accent-contrast: #ffffff;
+
+  /* Borders */
+  --color-border: #364153;
+
+  /* Navigation */
+  /* Same as Section B */
+  --color-nav-bg: #101a2a;
+
+  /* Close to Section A */
+  --color-nav-inactive: #1c293b;
+
+  /* Active Navigation — Neon Wine */
+  --color-nav-active: #c2185b;
+  --color-nav-active-text: #ffffff;
+
+  /* Download Buttons — Deep Subdued Teal */
+  --color-button-primary-bg: #345c65;
+  --color-button-primary-text: #ffffff;
+  --color-button-primary-hover: #24434a;
+
+  /* Interactive States */
+  --color-hover: #283a55;
+  --color-focus: #79a8ff;
+
+  /* Cursor Trail — Bright Electric Blue */
+  --color-cursor-trail: #38bfff;
+}

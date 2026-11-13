@@ -1,0 +1,188 @@
+
+/* =========================================================
+   INFINITE CAROUSEL — REUSABLE COMPONENT
+   ========================================================= */
+
+/*
+   Features:
+   - Horizontal free scrolling
+   - Mouse dragging
+   - Native touch swiping
+   - Seamless infinite sequence layout
+   - No scroll snapping
+   - Hidden scrollbar
+   - Compatible with automatic scrolling
+
+   Animation and infinite repositioning are
+   handled by InfiniteCarousel.tsx.
+*/
+
+
+/* ---------------------------------------------------------
+   01. CAROUSEL VIEWPORT
+   --------------------------------------------------------- */
+
+.infinite-carousel {
+  display: flex;
+
+  width: 100%;
+  min-width: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  /* Free scrolling — no automatic locking */
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+
+  /* Prevent horizontal overscroll propagation */
+  overscroll-behavior-x: contain;
+
+  /* Hide scrollbar */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  /* Desktop dragging */
+  cursor: grab;
+
+  user-select: none;
+  -webkit-user-select: none;
+
+  /* Allow native touch gestures */
+  touch-action: pan-x pan-y;
+}
+
+.infinite-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* ---------------------------------------------------------
+   02. REPEATED SEQUENCES
+   --------------------------------------------------------- */
+
+/*
+   Three identical sequences are arranged
+   horizontally without gaps between them.
+
+   Each sequence contains its own card spacing.
+   This ensures sequence boundaries remain
+   visually consistent.
+*/
+
+.infinite-carousel-sequence {
+  display: flex;
+
+  flex: 0 0 auto;
+
+  align-items: stretch;
+
+  gap: var(--carousel-gap, 32px);
+
+  min-width: 0;
+
+  /*
+     The trailing gap is included in the
+     measured sequence width, keeping the
+     infinite looping boundary seamless.
+  */
+  padding-right: var(--carousel-gap, 32px);
+}
+
+
+/* ---------------------------------------------------------
+   03. DRAGGING STATE
+   --------------------------------------------------------- */
+
+.infinite-carousel.is-dragging {
+  cursor: grabbing;
+
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
+
+.infinite-carousel.is-dragging,
+.infinite-carousel.is-dragging * {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+
+/* ---------------------------------------------------------
+   04. PREVENT NATIVE IMAGE DRAGGING
+   --------------------------------------------------------- */
+
+.infinite-carousel img {
+  -webkit-user-drag: none;
+}
+
+
+/* ---------------------------------------------------------
+   05. CERTIFICATIONS CAROUSEL CONFIGURATION
+   --------------------------------------------------------- */
+
+/*
+   These values are exclusive to Certifications.
+
+   Other sections can reuse InfiniteCarousel
+   with their own card sizing and spacing.
+*/
+
+.certifications-carousel {
+  --carousel-gap: 32px;
+
+  /*
+     Match the actual viewport width,
+     capped by the shared container.
+  */
+  --carousel-width: min(
+    calc(100vw - (var(--page-gutter) * 2)),
+    var(--container-width)
+  );
+}
+
+/*
+   Three certificates visible on desktop.
+*/
+
+.certifications-carousel .certification-item {
+  flex: 0 0 calc(
+    (var(--carousel-width) - (var(--carousel-gap) * 2)) / 3
+  );
+
+  min-width: 0;
+}
+
+
+/* ---------------------------------------------------------
+   06. RESPONSIVE CERTIFICATE SIZING
+   --------------------------------------------------------- */
+
+/* Tablets and smaller laptops */
+
+@media (max-width: 1024px) {
+  .certifications-carousel {
+    --carousel-gap: 24px;
+  }
+
+  .certifications-carousel .certification-item {
+    flex-basis: calc(
+      (var(--carousel-width) - var(--carousel-gap)) / 2
+    );
+  }
+}
+
+
+/* Mobile — one certificate with next-card preview */
+
+@media (max-width: 640px) {
+  .certifications-carousel {
+    --carousel-gap: 16px;
+  }
+
+  .certifications-carousel .certification-item {
+    flex-basis: calc(
+      var(--carousel-width) * 0.85
+    );
+  }
+}

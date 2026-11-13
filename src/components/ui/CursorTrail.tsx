@@ -111,7 +111,7 @@ export default function CursorTrail() {
           1
         )
 
-        const opacity = (1 - progress) * 0.65
+        const opacity = (1 - progress) * 0.40
         const movement = progress * progress
 
         context.save()
